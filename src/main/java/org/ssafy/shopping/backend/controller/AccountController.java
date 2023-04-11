@@ -27,6 +27,7 @@ public class AccountController {
     @PostMapping("/api/account/login")
     public ResponseEntity login(@RequestBody Map<String, String> params,
             HttpServletResponse res) {
+
         Member member = memberRepository.findByIdAndPassword(params.get("id"), params.get("password"));
 
         if (member != null) {
