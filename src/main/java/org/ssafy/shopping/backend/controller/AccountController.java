@@ -1,6 +1,7 @@
 package org.ssafy.shopping.backend.controller;
 
 import io.jsonwebtoken.Claims;
+import org.ssafy.shopping.backend.dto.MemberDto;
 import org.ssafy.shopping.backend.entity.*;
 import org.ssafy.shopping.backend.repository.*;
 import org.ssafy.shopping.backend.service.*;
@@ -54,6 +55,20 @@ public class AccountController {
         res.addCookie(cookie);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/api/account/register")
+    public  ResponseEntity register(@RequestBody Map<String, String> params,
+                                    HttpServletResponse res){
+        Member member = new Member();
+        member.setMemberMail(params.get("email"));
+        member.setMemberName("염동엽");
+        member.setMemberPhone("010-9999-0000");
+        member.setRegDate(0);
+        member.setPassword(params.get("password"));
+
+        return new ResponseEntity<>(memberRepository.save(member), HttpStatus.OK);
+    }
+
 
     @GetMapping("/api/account/check")
     public ResponseEntity check(@CookieValue(value = "token", required = false) String token) {
