@@ -27,12 +27,11 @@ public class AccountController {
     @PostMapping("/api/account/login")
     public ResponseEntity login(@RequestBody Map<String, String> params,
             HttpServletResponse res) {
-
-        Member member = memberRepository.findByIdAndPassword(params.get("id"), params.get("password"));
+        Member member = memberRepository.findByMemberMailAndPassword(params.get("email"), params.get("password"));
 
         if (member != null) {
-            int id = member.getId();
-            String token = jwtService.getToken("id", id);
+            String email = member.getMemberMail();
+            String token = jwtService.getToken("email", email);
 
             Cookie cookie = new Cookie("token", token);
             cookie.setHttpOnly(true);
@@ -40,7 +39,7 @@ public class AccountController {
 
             res.addCookie(cookie);
 
-            return new ResponseEntity<>(id, HttpStatus.OK);
+            return new ResponseEntity<>(email, HttpStatus.OK);
         }
 
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -61,8 +60,8 @@ public class AccountController {
         Claims claims = jwtService.getClaims(token);
 
         if (claims != null) {
-            int id = Integer.parseInt(claims.get("id").toString());
-            return new ResponseEntity<>(id, HttpStatus.OK);
+            String email  = claims.get("email").toString();
+            return new ResponseEntity<>(email, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(null, HttpStatus.OK);
