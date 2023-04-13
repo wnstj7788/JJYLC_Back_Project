@@ -30,7 +30,7 @@ public class ItemController {
     }
 
    @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("price") String price, @RequestParam("discountPer") String discountPer) {
     try {
         // 파일 저장 디렉토리 경로 설정
         String uploadDir = "/uploads/";
