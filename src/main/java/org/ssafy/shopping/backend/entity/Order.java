@@ -16,7 +16,7 @@ public class Order {
     private int id;
 
     @Column
-    private int memberId;
+    private String memberMail;
 
     @Column(length = 50, nullable = false)
     private String name;

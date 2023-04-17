@@ -63,6 +63,7 @@ public class AccountController {
         member.setMemberMail(params.get("email"));
         member.setMemberName("염동엽");
         member.setMemberPhone("010-9999-0000");
+        member.setRegDate("2023-04-17 10:10:10");
         member.setPassword(params.get("password"));
 
         return new ResponseEntity<>(memberRepository.save(member), HttpStatus.OK);
