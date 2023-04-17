@@ -1,5 +1,7 @@
 package org.ssafy.shopping.backend.entity;
 
+import java.nio.file.Path;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "items")
 public class Item {
