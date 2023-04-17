@@ -13,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -61,9 +63,9 @@ public class AccountController {
                                     HttpServletResponse res){
         Member member = new Member();
         member.setMemberMail(params.get("email"));
-        member.setMemberName("염동엽");
-        member.setMemberPhone("010-9999-0000");
-        member.setRegDate("2023-04-17 10:10:10");
+        member.setMemberName(params.get("name"));
+        member.setMemberPhone(params.get("phonenum"));
+        member.setRegDate(Timestamp.valueOf(LocalDateTime.now()));
         member.setPassword(params.get("password"));
 
         return new ResponseEntity<>(memberRepository.save(member), HttpStatus.OK);

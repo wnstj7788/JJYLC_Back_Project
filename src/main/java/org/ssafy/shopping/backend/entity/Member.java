@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -28,6 +29,6 @@ public class Member {
     private String memberPhone;
 
     @Column(length = 100, nullable = false)
-    private String regDate;
+    private Timestamp regDate;
 
 }
