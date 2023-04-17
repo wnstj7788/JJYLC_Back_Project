@@ -28,6 +28,6 @@ public class Member {
     private String memberPhone;
 
     @Column(length = 100, nullable = false)
-    private int regDate;
+    private String regDate;
 
 }

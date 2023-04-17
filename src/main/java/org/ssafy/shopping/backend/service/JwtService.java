@@ -10,4 +10,6 @@ public interface JwtService {
     boolean isValid(String token);
 
     int getId(String token);
+
+    String getMemberMail(String token);
 }

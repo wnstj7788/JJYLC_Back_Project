@@ -16,7 +16,7 @@ public class Cart {
     private int id;
 
     @Column
-    private int memberId;
+    private String memberMail;
 
     @Column
     private int itemId;

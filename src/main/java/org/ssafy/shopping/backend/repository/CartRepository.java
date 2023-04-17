@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
-    List<Cart> findByMemberId(int memberId);
+    List<Cart> findByMemberMail(String memberMail);
 
-    Cart findByMemberIdAndItemId(int memberId, int itemId);
 
+    Cart findByMemberMailAndItemId(String memberMail,int itemId);
     void deleteByMemberId(int memberId);
 }

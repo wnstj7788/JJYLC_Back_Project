@@ -31,8 +31,9 @@ public class CartController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        int memberId = jwtService.getId(token);
-        List<Cart> carts = cartRepository.findByMemberId(memberId);
+//        int memberId = jwtService.getId(token);
+        String memberMail = jwtService.getMemberMail(token);
+        List<Cart> carts = cartRepository.findByMemberMail(memberMail);
         List<Integer> itemIds = carts.stream().map(Cart::getItemId).toList();
         List<Item> items = itemRepository.findByIdIn(itemIds);
 
@@ -49,12 +50,11 @@ public class CartController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        int memberId = jwtService.getId(token);
-        Cart cart = cartRepository.findByMemberIdAndItemId(memberId, itemId);
-
+        String memberMail = jwtService.getMemberMail(token);
+        Cart cart = cartRepository.findByMemberMailAndItemId(memberMail, itemId);
         if (cart == null) {
             Cart newCart = new Cart();
-            newCart.setMemberId(memberId);
+            newCart.setMemberMail(memberMail);
             newCart.setItemId(itemId);
             cartRepository.save(newCart);
         }
@@ -72,8 +72,8 @@ public class CartController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        int memberId = jwtService.getId(token);
-        Cart cart = cartRepository.findByMemberIdAndItemId(memberId, itemId);
+        String memberMail = jwtService.getMemberMail(token);
+        Cart cart = cartRepository.findByMemberMailAndItemId(memberMail, itemId);
 
         cartRepository.delete(cart);
         return new ResponseEntity<>(HttpStatus.OK);

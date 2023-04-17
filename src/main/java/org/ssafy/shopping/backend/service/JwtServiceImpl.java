@@ -70,4 +70,15 @@ public class JwtServiceImpl implements JwtService {
 
         return 0;
     }
+
+    @Override
+    public String getMemberMail(String token) {
+        Claims claims = this.getClaims(token);
+
+        if (claims != null) {
+            return claims.get("email").toString();
+        }
+
+        return null;
+    }
 }
