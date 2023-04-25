@@ -1,5 +1,6 @@
 package org.ssafy.shopping.backend.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,33 +30,43 @@ public class ItemController {
         return items;
     }
 
-   @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("price") String price, @RequestParam("discountPer") String discountPer) {
-    try {
-        // 파일 저장 디렉토리 경로 설정
-        String uploadDir = "/uploads/";
-        // 파일 이름
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        
-        // 파일 저장 경로 생성
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+    @PostMapping("/api/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
+            @RequestParam("price") String price, @RequestParam("discountPer") String discountPer,
+            @RequestParam("tag") int tag) {
+        try {
+            // 파일 저장 디렉토리 경로 설정
+
+            System.out.println(tag);
+            // 파일 이름
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+            // 파일 저장 경로 생성
+            String uploadDir = "src/main/resources/static/uploads/";
+            Path uploadPath = Paths.get(uploadDir);
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // 파일 저장 경로와 파일 이름 결합
+            Path filePath = uploadPath.resolve(fileName);
+
+            // 파일 저장
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            Item item = new Item();
+            item.setName(fileName);
+            String uploadDBpath = "uploads/";
+            item.setImgPath(uploadDBpath + fileName);
+            item.setDiscountPer(discountPer);
+            item.setPrice(price);
+            itemRepository.save(item);
+
+            return "File uploaded successfully!";
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        // 파일 저장 경로와 파일 이름 결합
-        Path filePath = uploadPath.resolve(fileName);
-        // 파일 저장
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        Item item = new Item();
-        item.setName(fileName);
-        item.setImgPath(filePath.toString());
-        itemRepository.save(item);
-
-        return "File uploaded successfully!";
-    } catch (IOException e) {
-        e.printStackTrace();
+        return "Failed to upload file.";
     }
-    return "Failed to upload file.";
-}
 }
