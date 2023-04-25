@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -15,21 +16,25 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column(length = 100, nullable = false)
     private String memberMail;
 
+    @Column(nullable = false)
+    private int itemId;
+
     @Column(length = 50, nullable = false)
-    private String name;
+    private String itemName;
 
-    @Column(length = 500, nullable = false)
-    private String address;
+    @Column(nullable = false)
+    private Timestamp orderDate;
 
-    @Column(length = 10, nullable = false)
-    private String payment;
+    @Column(length = 100, nullable = false)
+    private String orderPrice;
 
-    @Column(length = 16)
-    private String cardNumber;
+    @Column(nullable = false)
+    private String discountPer;
 
-    @Column(length = 500, nullable = false)
-    private String items;
+    @Column(length = 50, nullable = false)
+    private String img_path;
+
 }

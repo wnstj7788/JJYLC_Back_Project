@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
+
 @Entity
 @Table(name = "carts")
 public class Cart {
@@ -20,4 +21,9 @@ public class Cart {
 
     @Column
     private int itemId;
+
+    @Override
+    public String toString() {
+        return "id = " +id +" itemid : " + itemId + " memberMail : " +memberMail;
+    }
 }
