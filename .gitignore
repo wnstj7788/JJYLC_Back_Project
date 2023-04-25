@@ -15,7 +15,8 @@ build/
 .sts4-cache
 bin/
 !**/src/main/**/bin/
-**/src/main/resources/
+**/src/main/resources/application.properties
+**/src/main/resources/application.yml
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###

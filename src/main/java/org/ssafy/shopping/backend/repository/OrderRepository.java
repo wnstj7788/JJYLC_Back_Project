@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-    List<Order> findByMemberMailOrderByIdDesc(String memberMail);
+    List<Order> findByMemberMail(String memberMail);
 }

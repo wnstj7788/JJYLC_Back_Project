@@ -51,6 +51,7 @@ public class CartController {
 
         String memberMail = jwtService.getMemberMail(token);
         Cart cart = cartRepository.findByMemberMailAndItemId(memberMail, itemId);
+        System.out.println("itemId : " + itemId +" "+ memberMail);
         if (cart == null) {
             Cart newCart = new Cart();
             newCart.setMemberMail(memberMail);

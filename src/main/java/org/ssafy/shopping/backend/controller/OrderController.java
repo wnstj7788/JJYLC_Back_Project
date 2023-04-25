@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,14 +21,15 @@ public class OrderController {
 
     @Autowired
     OrderRepository orderRepository;
-
+    @Autowired
+    ItemRepository itemRepository;
     @Autowired
     CartRepository cartRepository;
 
     @Autowired
     JwtService jwtService;
 
-    @GetMapping("/api/orders")
+    @GetMapping("/api/orderList")
     public ResponseEntity getOrder(
             @CookieValue(value = "token", required = false) String token
     ) {
@@ -36,14 +39,38 @@ public class OrderController {
         }
 
         String memberMail = jwtService.getMemberMail(token);
-        List<Order> orders = orderRepository.findByMemberMailOrderByIdDesc(memberMail);
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        List<Order> orders = orderRepository.findByMemberMail(memberMail);
+        List<OrderDto> orderlist = new ArrayList<>();
+        Long currentTime = System.currentTimeMillis();
+        for (Order o : orders) {
+            System.out.println(1);
+            OrderDto dto = new OrderDto();
+            dto.setMemberMail(memberMail);
+            dto.setItemName(o.getItemName());
+            dto.setOrderDate(o.getOrderDate().toString());
+
+            Long time = o.getOrderDate().getTime();
+            if(currentTime - time >= 432000000L){ // 5일 후
+                dto.setOrderStatus("배송 완료");
+            } else if (currentTime - time >= 17280000L) {  // 2일 후
+                dto.setOrderStatus("배송 중");
+
+            } else if (currentTime - time >= 86400000L) { // 1일 후
+                dto.setOrderStatus("배송 시작");
+            }else{  // 1일 이내
+                dto.setOrderStatus("주문 완료");
+            }
+            dto.setOrderPrice(o.getOrderPrice());
+            dto.setDiscountPer(o.getDiscountPer());
+            dto.setOrderImg(o.getImg_path());
+            orderlist.add(dto);
+        }
+        return new ResponseEntity<>(orderlist, HttpStatus.OK);
     }
 
     @Transactional
-    @PostMapping("/api/orders")
+    @GetMapping("/api/order")
     public ResponseEntity pushOrder(
-            @RequestBody OrderDto dto,
             @CookieValue(value = "token", required = false) String token
     ) {
 
@@ -52,18 +79,22 @@ public class OrderController {
         }
 
         String memberMail = jwtService.getMemberMail(token);
-        Order newOrder = new Order();
+        List<Cart> cartList = cartRepository.findByMemberMail(memberMail);
 
-        newOrder.setMemberMail(memberMail);
-        newOrder.setName(dto.getName());
-        newOrder.setAddress(dto.getAddress());
-        newOrder.setPayment(dto.getPayment());
-        newOrder.setCardNumber(dto.getCardNumber());
-        newOrder.setItems(dto.getItems());
-
-        orderRepository.save(newOrder);
-//        cartRepository.deleteByMemberId(memberId);
-
+        for (Cart c: cartList) {
+            System.out.println("memberMail :" + memberMail);
+            System.out.println(c.toString());
+            Order newOrder = new Order();
+            newOrder.setMemberMail(memberMail);
+            newOrder.setOrderDate(new Timestamp(System.currentTimeMillis()));
+            Item item = itemRepository.findById(c.getItemId());
+            newOrder.setOrderPrice(item.getPrice());
+            newOrder.setDiscountPer(item.getDiscountPer());
+            newOrder.setImg_path(item.getImgPath());
+            newOrder.setItemName(item.getName());
+            orderRepository.save(newOrder);
+        }
+        cartRepository.deleteByMemberMail(memberMail);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
