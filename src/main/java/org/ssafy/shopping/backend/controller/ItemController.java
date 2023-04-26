@@ -24,6 +24,12 @@ public class ItemController {
     @Autowired
     ItemRepository itemRepository;
 
+    @GetMapping("/api/search")
+    public List<Item> getItemListByComplete(@RequestParam("searchName") String searchName) {
+        searchName = searchName.replace('+','|');
+        return itemRepository.searchByRegExp(searchName);
+    }
+
     @GetMapping("/api/items")
     public List<Item> getItems() {
         List<Item> items = itemRepository.findAll();
