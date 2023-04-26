@@ -1,9 +1,12 @@
 package org.ssafy.shopping.backend.controller;
 
 import io.jsonwebtoken.Claims;
+import lombok.NonNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.ssafy.shopping.backend.dto.MemberDto;
 import org.ssafy.shopping.backend.entity.*;
 import org.ssafy.shopping.backend.repository.*;
+import org.ssafy.shopping.backend.security.PasswordEncoder;
 import org.ssafy.shopping.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +23,11 @@ import java.util.Map;
 
 @RestController
 public class AccountController {
+    @Autowired
+    private PasswordEncoder bPasswordEncoder;
 
     @Autowired
+
     MemberRepository memberRepository;
 
     @Autowired
@@ -30,10 +36,18 @@ public class AccountController {
     @PostMapping("/api/account/login")
     public ResponseEntity login(@RequestBody Map<String, String> params,
             HttpServletResponse res) {
-        Member member = memberRepository.findByMemberMailAndPassword(params.get("email"), params.get("password"));
 
-        if (member != null) {
-            String email = member.getMemberMail();
+        //아이디 기준으로 값 불러오고 여기에 들어있는 PW와 넘겨 받은 PW가 같은지 확인할거임
+        Member originMember = memberRepository.findByMemberMail(params.get("email"));
+        BCryptPasswordEncoder encoder  = new BCryptPasswordEncoder();
+        if(encoder.matches(params.get("password"), originMember.getPassword())){
+
+
+
+//        Member member = memberRepository.findByMemberMailAndPassword(params.get("email"), params.get("password"));
+
+//        if (member != null) {
+            String email = originMember.getMemberMail();
             String token = jwtService.getToken("email", email);
 
             Cookie cookie = new Cookie("token", token);
@@ -61,12 +75,15 @@ public class AccountController {
     @PostMapping("/api/account/register")
     public  ResponseEntity register(@RequestBody Map<String, String> params,
                                     HttpServletResponse res){
+        System.out.println("@@@@@");
         Member member = new Member();
         member.setMemberMail(params.get("email"));
         member.setMemberName(params.get("name"));
         member.setMemberPhone(params.get("phonenum"));
         member.setRegDate(Timestamp.valueOf(LocalDateTime.now()));
-        member.setPassword(params.get("password"));
+        String hashingPW = this.bPasswordEncoder.encode(params.get("password"));
+        member.setPassword(hashingPW);
+//        member.setPassword(params.get("password"));
 
         return new ResponseEntity<>(memberRepository.save(member), HttpStatus.OK);
     }

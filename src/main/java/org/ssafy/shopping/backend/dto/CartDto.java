@@ -2,13 +2,10 @@ package org.ssafy.shopping.backend.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-
-import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class OrderDto {
+public class CartDto {
 
     private int id;
     private String memberMail;
