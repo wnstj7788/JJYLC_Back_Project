@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +26,15 @@ public class ItemController {
     ItemRepository itemRepository;
 
     @GetMapping("/api/search")
-    public List<Item> getItemListByComplete(@RequestParam("searchName") String searchName) {
-        searchName = searchName.replace('+','|');
-        return itemRepository.searchByRegExp(searchName);
+    public List<String> getItemListByComplete(@RequestParam("searchName") String searchName) {
+        searchName = searchName.replace('+', '|');
+        List<Item> temp = itemRepository.searchByRegExp(searchName);
+        List<String> nameList = new ArrayList<>();
+        for (Item item : temp) {
+            nameList.add(item.getName());
+            // System.out.println(item.getName());
+        }
+        return nameList;
     }
 
     @GetMapping("/api/items")
