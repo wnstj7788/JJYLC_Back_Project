@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,21 +15,21 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 50, nullable = false)
-    private int id;
+    private String memberMail;
 
     @Column(length = 100, nullable = false)
     private String password;
-    @Column(length = 30, nullable = false)
-    private String memberName;
 
-    @Column(length = 100, nullable = false)
-    private String memberMail;
+    @Column(length = 255, nullable = false)
+    private String address;
 
     @Column(length = 100, nullable = false)
     private String memberPhone;
 
-    @Column(length = 100, nullable = false)
-    private Timestamp regDate;
+    @Column(nullable = true)
+    private LocalDateTime regDate;
+
+    @Column(nullable = true)
+    private LocalDateTime updatedAt;
 
 }
