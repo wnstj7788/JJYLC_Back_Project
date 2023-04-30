@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,23 +19,18 @@ public class Order {
 
     @Column(length = 100, nullable = false)
     private String memberMail;
+    @Column(nullable = false)
+    private int quantity;
+    @Column
+    private String info;
 
     @Column(nullable = false)
-    private int itemId;
-
-    @Column(length = 50, nullable = false)
-    private String itemName;
+    private int itemsId;
 
     @Column(nullable = false)
-    private Timestamp orderDate;
-
-    @Column(length = 100, nullable = false)
-    private String orderPrice;
+    private LocalDateTime orderDate;
 
     @Column(nullable = false)
-    private String discountPer;
-
-    @Column(length = 50, nullable = false)
-    private String img_path;
+    private int optionsId;
 
 }
