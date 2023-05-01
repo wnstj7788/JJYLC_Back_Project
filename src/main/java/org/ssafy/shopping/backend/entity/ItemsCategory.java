@@ -8,16 +8,13 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "items_options")
-public class itemsOptions {
+@Table(name = "items_category")
+public class ItemsCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 50, nullable = false)
-    private String optionName;
-
-    @Column(nullable = false)
-    private int additionalPrice;
+    @Column(length = 45, nullable = false)
+    private String category_name;
 
 }

@@ -18,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -80,10 +81,9 @@ public class AccountController {
         member.setMemberMail(params.get("email"));
         member.setMemberName(params.get("name"));
         member.setMemberPhone(params.get("phonenum"));
-        member.setRegDate(Timestamp.valueOf(LocalDateTime.now()));
+        member.setRegDate(LocalDateTime.now());
         String hashingPW = this.bPasswordEncoder.encode(params.get("password"));
         member.setPassword(hashingPW);
-//        member.setPassword(params.get("password"));
 
         return new ResponseEntity<>(memberRepository.save(member), HttpStatus.OK);
     }

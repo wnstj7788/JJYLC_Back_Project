@@ -42,29 +42,29 @@ public class OrderController {
         List<Order> orders = orderRepository.findByMemberMail(memberMail);
         List<OrderDto> orderlist = new ArrayList<>();
         Long currentTime = System.currentTimeMillis();
-        for (Order o : orders) {
-            System.out.println(1);
-            OrderDto dto = new OrderDto();
-            dto.setMemberMail(memberMail);
-            dto.setItemName(o.getItemName());
-            dto.setOrderDate(o.getOrderDate().toString());
-
-            Long time = o.getOrderDate().getTime();
-            if(currentTime - time >= 432000000L){ // 5일 후
-                dto.setOrderStatus("배송 완료");
-            } else if (currentTime - time >= 17280000L) {  // 2일 후
-                dto.setOrderStatus("배송 중");
-
-            } else if (currentTime - time >= 86400000L) { // 1일 후
-                dto.setOrderStatus("배송 시작");
-            }else{  // 1일 이내
-                dto.setOrderStatus("주문 완료");
-            }
-            dto.setOrderPrice(o.getOrderPrice());
-            dto.setDiscountPer(o.getDiscountPer());
-            dto.setOrderImg(o.getImg_path());
-            orderlist.add(dto);
-        }
+//        for (Order o : orders) {
+//            System.out.println(1);
+//            OrderDto dto = new OrderDto();
+//            dto.setMemberMail(memberMail);
+//            dto.setItemName(o.getItemName());
+//            dto.setOrderDate(o.getOrderDate().toString());
+//
+//            Long time = o.getOrderDate().getTime();
+//            if(currentTime - time >= 432000000L){ // 5일 후
+//                dto.setOrderStatus("배송 완료");
+//            } else if (currentTime - time >= 17280000L) {  // 2일 후
+//                dto.setOrderStatus("배송 중");
+//
+//            } else if (currentTime - time >= 86400000L) { // 1일 후
+//                dto.setOrderStatus("배송 시작");
+//            }else{  // 1일 이내
+//                dto.setOrderStatus("주문 완료");
+//            }
+//            dto.setOrderPrice(o.getOrderPrice());
+//            dto.setDiscountPer(o.getDiscountPer());
+//            dto.setOrderImg(o.getImg_path());
+//            orderlist.add(dto);
+//        }
         return new ResponseEntity<>(orderlist, HttpStatus.OK);
     }
 
@@ -78,23 +78,23 @@ public class OrderController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        String memberMail = jwtService.getMemberMail(token);
-        List<Cart> cartList = cartRepository.findByMemberMail(memberMail);
-
-        for (Cart c: cartList) {
-            System.out.println("memberMail :" + memberMail);
-            System.out.println(c.toString());
-            Order newOrder = new Order();
-            newOrder.setMemberMail(memberMail);
-            newOrder.setOrderDate(new Timestamp(System.currentTimeMillis()));
-            Item item = itemRepository.findById(c.getItemId());
-            newOrder.setOrderPrice(item.getPrice());
-            newOrder.setDiscountPer(item.getDiscountPer());
-            newOrder.setImg_path(item.getImgPath());
-            newOrder.setItemName(item.getName());
-            orderRepository.save(newOrder);
-        }
-        cartRepository.deleteByMemberMail(memberMail);
+//        String memberMail = jwtService.getMemberMail(token);
+//        List<Cart> cartList = cartRepository.findByMemberMail(memberMail);
+//
+//        for (Cart c: cartList) {
+//            System.out.println("memberMail :" + memberMail);
+//            System.out.println(c.toString());
+//            Order newOrder = new Order();
+//            newOrder.setMemberMail(memberMail);
+//            newOrder.setOrderDate(new Timestamp(System.currentTimeMillis()));
+//            Item item = itemRepository.findById(c.getItemId());
+//            newOrder.setOrderPrice(item.getPrice());
+//            newOrder.setDiscountPer(item.getDiscountPer());
+//            newOrder.setImg_path(item.getImgPath());
+//            newOrder.setItemName(item.getName());
+//            orderRepository.save(newOrder);
+//        }
+//        cartRepository.deleteByMemberMail(memberMail);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

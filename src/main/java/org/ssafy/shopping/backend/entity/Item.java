@@ -1,14 +1,19 @@
 package org.ssafy.shopping.backend.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+
 @Entity
 @Table(name = "items")
 public class Item {
@@ -39,8 +44,22 @@ public class Item {
     @Column(nullable = true)
     private LocalDateTime updatedAt;
 
-    @OneToOne
-    @JoinColumn(name = "items_category_id")
-    private itemsCategory itmesCategoryId;
+    @JsonIgnore
+    @OneToMany(mappedBy = "itemUrl",fetch = FetchType.LAZY)
+    private List<ItemsImages> itemUrl = new ArrayList<>();
 
+    public Item() {
+    }
+
+    public Item(int id, String name, String price, String discountPer, String description, int quantity, LocalDateTime createdAt, LocalDateTime updatedAt, List<ItemsImages> itemUrl) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.discountPer = discountPer;
+        this.description = description;
+        this.quantity = quantity;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.itemUrl = itemUrl;
+    }
 }

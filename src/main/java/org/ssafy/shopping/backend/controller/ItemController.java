@@ -43,6 +43,7 @@ public class ItemController {
         return items;
     }
 
+
     @PostMapping("/api/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
             @RequestParam("price") String price, @RequestParam("discountPer") String discountPer,
@@ -71,7 +72,7 @@ public class ItemController {
             Item item = new Item();
             item.setName(fileName);
             String uploadDBpath = "uploads/";
-            item.setImgPath(uploadDBpath + fileName);
+//            item.setImgPath(uploadDBpath + fileName);
             item.setDiscountPer(discountPer);
             item.setPrice(price);
             itemRepository.save(item);
