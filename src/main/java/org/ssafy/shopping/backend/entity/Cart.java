@@ -2,6 +2,7 @@ package org.ssafy.shopping.backend.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Setter
 
 @Entity
+@ToString
 @Table(name = "carts")
 public class Cart {
 
@@ -21,13 +23,13 @@ public class Cart {
     private String memberMail;
 
     @Column(nullable = false)
-    private int itemId;
+    private int itemsId;
     @Column(nullable = false)
     private int optionsId;
 
 
     @Override
     public String toString() {
-        return "id = " +id +" itemid : " + itemId + " memberMail : " +memberMail;
+        return "id = " +id +" itemid : " + itemsId + " memberMail : " +memberMail;
     }
 }

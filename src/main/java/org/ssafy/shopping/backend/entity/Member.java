@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String memberMail;
 
     @Column(length = 100, nullable = false)

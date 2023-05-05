@@ -10,10 +10,9 @@ public class CartDto {
     private int id;
     private String memberMail;
     private int itemId;
-    private String itemName;
-    private String orderDate;
-    private String orderStatus;
+    private String name;
+    private int quantity;
     private String discountPer;
-    private String orderPrice;
-    private String orderImg;
+    private String price;
+    private String imgPath;
 }

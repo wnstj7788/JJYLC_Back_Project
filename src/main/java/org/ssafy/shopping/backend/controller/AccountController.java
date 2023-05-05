@@ -76,12 +76,14 @@ public class AccountController {
     @PostMapping("/api/account/register")
     public  ResponseEntity register(@RequestBody Map<String, String> params,
                                     HttpServletResponse res){
-        System.out.println("@@@@@");
+        System.out.println(params.get("email"));
         Member member = new Member();
         member.setMemberMail(params.get("email"));
         member.setMemberName(params.get("name"));
         member.setMemberPhone(params.get("phonenum"));
         member.setRegDate(LocalDateTime.now());
+        // 주소값 미구현 하드 코딩
+        member.setAddress("경기도");
         String hashingPW = this.bPasswordEncoder.encode(params.get("password"));
         member.setPassword(hashingPW);
 

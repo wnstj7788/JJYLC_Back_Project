@@ -1,5 +1,6 @@
 package org.ssafy.shopping.backend.controller;
 
+import org.ssafy.shopping.backend.dto.CartDto;
 import org.ssafy.shopping.backend.entity.*;
 import org.ssafy.shopping.backend.repository.*;
 import org.ssafy.shopping.backend.service.*;
@@ -20,7 +21,8 @@ public class CartController {
 
     @Autowired
     CartRepository cartRepository;
-
+    @Autowired
+    CartService cartService;
     @Autowired
     ItemRepository itemRepository;
 
@@ -30,18 +32,18 @@ public class CartController {
         if (!jwtService.isValid(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-
         String memberMail = jwtService.getMemberMail(token);
-        List<Cart> carts = cartRepository.findByMemberMail(memberMail);
-        List<Integer> itemIds = carts.stream().map(Cart::getItemId).toList();
-        List<Item> items = itemRepository.findByIdIn(itemIds);
-
-        return new ResponseEntity<>(items, HttpStatus.OK);
+        List<CartDto> cartList = cartService.findItemsByMemberMail(memberMail);
+        return new ResponseEntity<>(cartList, HttpStatus.OK);
     }
-
+    
+    // quantity 미구현으로 인한 하드코딩
+    //    @PostMapping("/api/cart/items/{itemId}/{quantity}")
     @PostMapping("/api/cart/items/{itemId}")
     public ResponseEntity pushCartItem(
             @PathVariable("itemId") int itemId,
+//  quantity 구현 시 가능
+//            @PathVariable("quantity") int quantity,
             @CookieValue(value = "token", required = false) String token
     ) {
 
@@ -50,21 +52,22 @@ public class CartController {
         }
 
         String memberMail = jwtService.getMemberMail(token);
-        Cart cart = cartRepository.findByMemberMailAndItemId(memberMail, itemId);
-        System.out.println("itemId : " + itemId +" "+ memberMail);
-        if (cart == null) {
-            Cart newCart = new Cart();
-            newCart.setMemberMail(memberMail);
-            newCart.setItemId(itemId);
-            cartRepository.save(newCart);
+        try{
+            // quantity 미구현 하드코딩
+//            cartService.insertCart(memberMail,itemId,quantity);
+            cartService.insertCart(memberMail,itemId,2);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("아이템 입력 실패",HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>("아이템 입력 성공",HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/cart/items/{itemId}")
+    @DeleteMapping("/api/cart/items/{orderId}")
     public ResponseEntity removeCartItem(
-            @PathVariable("itemId") int itemId,
+            @PathVariable("orderId") int orderId,
             @CookieValue(value = "token", required = false) String token
     ) {
 
@@ -73,10 +76,8 @@ public class CartController {
         }
 
         String memberMail = jwtService.getMemberMail(token);
-        Cart cart = cartRepository.findByMemberMailAndItemId(memberMail, itemId);
+        String result = cartService.deleteCart(orderId);
 
-        cartRepository.delete(cart);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 }
