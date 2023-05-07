@@ -34,7 +34,7 @@ public class CartServiceImpl implements CartService{
             if(i.getItemUrl().size()==0 ){
                 cartDto.setImgPath("");
             }else{
-                cartDto.setImgPath(String.valueOf(i.getItemUrl().get(0)));
+                cartDto.setImgPath(String.valueOf(i.getItemUrl().get(0).getImageUrl()));
             }
             cartDto.setQuantity(c.getQuantity());
             cartList.add(cartDto);
