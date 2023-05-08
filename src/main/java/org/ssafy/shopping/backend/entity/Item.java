@@ -23,9 +23,6 @@ public class Item {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @Column(length = 50, nullable = false)
-    private String gallery_number;
-    
     @Column(nullable = false)
     private String price;
 
@@ -34,12 +31,6 @@ public class Item {
 
     @Column(nullable = true)
     private String description;
-
-    @Column(nullable = false)
-    private String features;
-
-    @Column(length = 50,nullable = true)
-    private String sizeInfo;
 
     @Column(nullable = false)
     private int quantity;
@@ -57,27 +48,4 @@ public class Item {
     @OneToMany(mappedBy = "itemUrl", fetch = FetchType.LAZY)
     private List<ItemsImages> itemUrl = new ArrayList<>();
 
-    public Item() {
-
-    }
-
-    public Item(int id, String name, String gallery_number, String price, String discountPer, String description,
-            String features, String sizeInfo, int quantity, LocalDateTime createdAt, LocalDateTime updatedAt,
-            int itemsCategoryId, List<ItemsImages> itemUrl) {
-        this.id = id;
-        this.name = name;
-        this.gallery_number = gallery_number;
-        this.price = price;
-        this.discountPer = discountPer;
-        this.description = description;
-        this.features = features;
-        this.sizeInfo = sizeInfo;
-        this.quantity = quantity;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.itemsCategoryId = itemsCategoryId;
-        this.itemUrl = itemUrl;
-    }
-
-    
 }

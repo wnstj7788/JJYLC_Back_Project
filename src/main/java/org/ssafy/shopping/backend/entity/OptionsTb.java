@@ -8,14 +8,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "options_tb")
+@Table(name = "items_tb")
 public class OptionsTb {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @EmbeddedId
+    private Option id;
 
-    @Column(nullable = false)
-    private int itemsId;
-    @Column(nullable = false)
-    private int optionsId;
 }

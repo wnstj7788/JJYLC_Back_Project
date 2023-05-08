@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @ToString
-@Table(name = "carts")
+@Table(name = "items_carts")
 public class Cart {
 
     @Id

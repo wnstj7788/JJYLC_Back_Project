@@ -15,6 +15,6 @@ public class ItemsCategory {
     private int id;
 
     @Column(length = 45, nullable = false)
-    private String category_name;
+    private String categoryName;
 
 }

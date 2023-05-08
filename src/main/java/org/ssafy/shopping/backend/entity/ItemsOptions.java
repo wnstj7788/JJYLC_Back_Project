@@ -15,7 +15,7 @@ public class ItemsOptions {
     private int id;
 
     @Column(length = 50, nullable = false)
-    private String optionName;
+    private String optionValue;
 
     @Column(nullable = false)
     private int additionalPrice;

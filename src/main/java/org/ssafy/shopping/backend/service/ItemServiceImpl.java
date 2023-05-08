@@ -33,7 +33,6 @@ public class ItemServiceImpl implements ItemService {
 
             ItemDto itemDto = new ItemDto();
             
-            itemDto.setGalleryNumber(i.getGallery_number());
             itemDto.setId(i.getId());
             itemDto.setName(i.getName());
             itemDto.setPrice(i.getPrice());

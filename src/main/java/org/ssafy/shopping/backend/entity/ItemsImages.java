@@ -16,14 +16,8 @@ public class ItemsImages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    private int  galleryId;
-    
     @Column(length = 255, nullable = false)
     private String imageUrl;
-
-    @Column(nullable = false)
-    private int imageOrder;
 
     @Column(nullable = false,name="items_id", insertable = false, updatable = false)
     private int itemsId;
@@ -32,17 +26,4 @@ public class ItemsImages {
     @JoinColumn(name = "items_id", referencedColumnName = "id")
     private Item itemUrl;
 
-    public ItemsImages() {
-    }
-
-    public ItemsImages(int id, int galleryId, String imageUrl, int imageOrder, int itemsId, Item itemUrl) {
-        this.id = id;
-        this.galleryId = galleryId;
-        this.imageUrl = imageUrl;
-        this.imageOrder = imageOrder;
-        this.itemsId = itemsId;
-        this.itemUrl = itemUrl;
-    }
-
-    
 }

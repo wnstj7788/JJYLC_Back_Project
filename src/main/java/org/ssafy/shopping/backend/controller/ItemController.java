@@ -82,11 +82,9 @@ public class ItemController {
             
             Item item = new Item();
             item.setName(name);
-            item.setGallery_number("1"); // 미구현
             item.setPrice(price);
             item.setDiscountPer(discountPer);
             item.setDescription("description"); // 미구현
-            item.setFeatures("feature"); // 미구현
             item.setQuantity(1); // 미구현
             item.setItemsCategoryId(tag);
             
@@ -95,9 +93,7 @@ public class ItemController {
             String uploadDBpath = "uploads/";
             
             ItemsImages itemImage = new ItemsImages();
-            // itemImage.setGalleryId(1);
             itemImage.setImageUrl(uploadDBpath + fileName);
-            itemImage.setImageOrder(1);
             itemImage.setItemUrl(item);
             itemImage.setItemsId(4);
 
