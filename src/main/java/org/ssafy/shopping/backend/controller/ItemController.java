@@ -56,7 +56,7 @@ public class ItemController {
     @PostMapping("/api/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
             @RequestParam("price") String price, @RequestParam("discountPer") String discountPer,
-            @RequestParam("tag") int tag) {
+            @RequestParam("tag") String tag) {
 
             System.out.println("여기로 들어오긴 함~!!!!!!!!!!!!!!!");
         try {
