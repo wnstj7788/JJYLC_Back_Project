@@ -9,7 +9,10 @@ public class ItemDto {
     
     private int id;
     private String name;
-    private String galleryNumber;
+    private String description;
+    private int quantity;
+    private String discountPer;
     private String price;
     private String imgPath;
+
 }

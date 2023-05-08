@@ -41,7 +41,6 @@ public class ItemController {
         List<String> nameList = new ArrayList<>();
         for (Item item : temp) {
             nameList.add(item.getName());
-            // System.out.println(item.getName());
         }
         return nameList;
     }

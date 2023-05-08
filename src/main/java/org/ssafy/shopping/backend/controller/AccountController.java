@@ -42,9 +42,6 @@ public class AccountController {
         Member originMember = memberRepository.findByMemberMail(params.get("email"));
         BCryptPasswordEncoder encoder  = new BCryptPasswordEncoder();
         if(encoder.matches(params.get("password"), originMember.getPassword())){
-//        Member member = memberRepository.findByMemberMailAndPassword(params.get("email"), params.get("password"));
-
-//        if (member != null) {
             String email = originMember.getMemberMail();
             String token = jwtService.getToken("email", email);
 

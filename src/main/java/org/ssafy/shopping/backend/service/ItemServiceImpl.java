@@ -36,6 +36,9 @@ public class ItemServiceImpl implements ItemService {
             itemDto.setId(i.getId());
             itemDto.setName(i.getName());
             itemDto.setPrice(i.getPrice());
+            itemDto.setDiscountPer(i.getDiscountPer());
+            itemDto.setDescription(i.getDescription());
+            itemDto.setQuantity(i.getQuantity());
             itemDto.setImgPath(itemImages.get(0).getImageUrl());
 
             result.add(itemDto);
