@@ -41,8 +41,8 @@ public class Item {
     @Column(nullable = true)
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false)
-    private int itemsCategoryId;
+    @Column(nullable = false, unique = true,length = 10)
+    private String itemsCategoryId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "itemUrl", fetch = FetchType.LAZY)
