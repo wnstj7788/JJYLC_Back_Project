@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService{
             o.setOrderDate(order.getOrderDate());
             o.setDiscountPer(i.getDiscountPer());
             o.setItemName(i.getName());
-            o.setImgPath(String.valueOf(i.getItemUrl().get(0)));
+            o.setImgPath(i.getItemUrl().get(0).getImageUrl());
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime orderDate = order.getOrderDate();
             String status = "";
