@@ -18,4 +18,7 @@ public class OrderDto {
     private String orderStatus;
     private String discountPer;
     private String orderPrice;
+
+    private String itemName;
+    private String imgPath;
 }

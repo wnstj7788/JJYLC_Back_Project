@@ -59,7 +59,8 @@ public class OrderServiceImpl implements OrderService{
             o.setOrderPrice(i.getPrice());
             o.setOrderDate(order.getOrderDate());
             o.setDiscountPer(i.getDiscountPer());
-
+            o.setItemName(i.getName());
+            o.setImgPath(String.valueOf(i.getItemUrl().get(0)));
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime orderDate = order.getOrderDate();
             String status = "";
